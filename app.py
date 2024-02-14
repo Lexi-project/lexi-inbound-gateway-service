@@ -1,16 +1,19 @@
-import falcon
-from wsgiref.simple_server import make_server
+import falcon.asgi
+import uvicorn
+from middlewares.authenticate import AuthenticateMiddleware
+from middlewares.proxy import ProxyMiddleware
 
-from resources.health_check import HealthcheckResource
+
+async def sink(req, resp):
+    pass
 
 
 def get_app() -> falcon.API:
-    app = falcon.App()
-    app.add_route('/health-check', HealthcheckResource())
+    app = falcon.asgi.App(middleware=falcon.CORSMiddleware(
+        allow_origins='http://localhost:9000', allow_credentials='*'))
+    app.add_sink(sink)
     return app
 
 
 if __name__ == '__main__':
-    with make_server('', 8000, get_app()) as httpd:
-        print('Serving on port 8000...')
-        httpd.serve_forever()
+    uvicorn.run(get_app(), port=8001)
