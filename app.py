@@ -12,7 +12,7 @@ def get_app() -> falcon.API:
     app = falcon.asgi.App(middleware=falcon.CORSMiddleware(
         allow_origins='http://localhost:9000', allow_credentials='*'))
     app.add_middleware(
-        middleware=[ProxyMiddleware()])
+        middleware=[AuthenticateMiddleware(), ProxyMiddleware()])
     app.add_sink(sink)
     return app
 
