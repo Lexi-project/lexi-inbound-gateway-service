@@ -1,10 +1,10 @@
-import falcon.asgi
+import falcon
 import uvicorn
 from middlewares.authenticate import AuthenticateMiddleware
 from middlewares.proxy import ProxyMiddleware
 
 
-async def sink(req, resp):
+async def sink(req: falcon.Request, resp: falcon.Response):
     pass
 
 
