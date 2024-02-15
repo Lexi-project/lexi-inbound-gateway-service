@@ -1,4 +1,5 @@
 import falcon
+import falcon.asgi
 import uvicorn
 from middlewares.authenticate import AuthenticateMiddleware
 from middlewares.proxy import ProxyMiddleware
