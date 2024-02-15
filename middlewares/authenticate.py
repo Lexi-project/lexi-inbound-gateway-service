@@ -1,9 +1,10 @@
-from middlewares.proxy import proxy_request
+from middlewares.proxy import options_request, proxy_request
 
 
 class AuthenticateMiddleware:
     user_paths = ['/api/user/login/', '/api/user/logout/', '/api/user/']
 
+    @options_request
     @proxy_request(target_url='http://localhost:9002', paths=user_paths)
     async def process_request(self, req, resp):
         pass
