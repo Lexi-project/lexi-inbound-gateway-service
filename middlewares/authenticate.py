@@ -1,3 +1,4 @@
+import falcon
 from middlewares.proxy import options_request, proxy_request
 
 
@@ -6,5 +7,5 @@ class AuthenticateMiddleware:
 
     @options_request
     @proxy_request(target_url='http://localhost:9002', paths=user_paths)
-    async def process_request(self, req, resp):
+    async def process_request(self, req: falcon.Request, resp: falcon.Response):
         pass
