@@ -38,7 +38,7 @@ def authenticate(paths: list[str]=[]):
 def proxy_request(target_url: str, paths: list[str]=[]):
     def decorator(func):
         async def wrapper(self, req: falcon.Request, resp: falcon.Response):
-            if len(paths) == 0 or req.path in paths:
+            if req.path in paths:
                 async with httpx.AsyncClient(headers=req.headers) as client:
                     async with client.stream(
                         req.method,
