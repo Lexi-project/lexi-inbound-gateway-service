@@ -2,6 +2,7 @@ import json
 import httpx
 import falcon
 
+import constants
 
 def options_request(func):
     async def wrapper(self, req: falcon.Request, resp: falcon.Response):
@@ -22,7 +23,7 @@ def authenticate(paths: list[str]=[]):
                 async with httpx.AsyncClient(headers=headers) as client:
                     response = await client.request(
                         'GET',
-                        'http://localhost:9002/api/user/'
+                        constants.USER_SERVICE_AUTHENTICATE_URL
                     )
                     user = json.loads(response.content)
                     user_id = user.get('user_id', None)
@@ -57,6 +58,6 @@ class ProxyMiddleware:
 
     @options_request
     @authenticate(paths=['/'])
-    @proxy_request(target_url='http://localhost:4000/graphql', paths=['/'])
+    @proxy_request(target_url=constants.GRAPHQL_GATEWAY_HOST, paths=['/'])
     async def process_request(self, req: falcon.Request, resp: falcon.Response):
         pass

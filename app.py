@@ -1,6 +1,8 @@
 import falcon
 import falcon.asgi
 import uvicorn
+import constants
+
 from middlewares.authenticate import AuthenticateMiddleware
 from middlewares.proxy import ProxyMiddleware
 
@@ -11,7 +13,7 @@ async def sink(req: falcon.Request, resp: falcon.Response):
 
 def get_app() -> falcon.API:
     app = falcon.asgi.App(middleware=falcon.CORSMiddleware(
-        allow_origins='http://localhost:9000', allow_credentials='*'))
+        allow_origins=constants.CORS_ALLOWED_ORIGINS, allow_credentials='*'))
     app.add_middleware(
         middleware=[AuthenticateMiddleware(), ProxyMiddleware()])
     app.add_sink(sink)
