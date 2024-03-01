@@ -20,5 +20,4 @@ def get_app() -> falcon.API:
     return app
 
 
-if __name__ == '__main__':
-    uvicorn.run(get_app(), port=8001)
+app = get_app()
